@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "595511936053",
+    "project_id": "profilepicture-98943",
+    "storage_bucket": "profilepicture-98943.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:595511936053:android:2de2f69cb84b6021eb5d7c",
+        "android_client_info": {
+          "package_name": "com.example.road_ster"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "595511936053-cuj3qgelcn84quucp8ll35o2q12jnhlo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyClI1LMlfz-Qzr7VrPKn7fxhgDRHKEIlTY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "595511936053-cuj3qgelcn84quucp8ll35o2q12jnhlo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
