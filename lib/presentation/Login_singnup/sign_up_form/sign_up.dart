@@ -1,25 +1,26 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gender_picker/source/enums.dart';
 import 'package:get/get.dart';
-import 'package:get/state_manager.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
-import 'package:road_ster/application/cubit/user_registration_cubit.dart';
+import 'package:road_ster/application/user_registration/user_registration_cubit.dart';
 import 'package:road_ster/application/date_picker/date_picker_cubit.dart';
 import 'package:road_ster/application/get_location/location_controller_cubit.dart';
 import 'package:road_ster/application/password_visible/paswordvisible_cubit.dart';
 import 'package:road_ster/application/text_change/text_change_cubit.dart';
 import 'package:road_ster/application/users_details/get_users_details_cubit.dart';
 import 'package:road_ster/domain/core/colors.dart';
-import 'package:road_ster/domain/validations/login_validation.dart';
 import 'package:road_ster/presentation/Login_singnup/login_form/login_page.dart';
 import 'package:road_ster/presentation/Login_singnup/sign_up_form/pageview_models/pageview_four.dart';
 import 'package:road_ster/presentation/Login_singnup/sign_up_form/pageview_models/pageview_one.dart';
 import 'package:road_ster/presentation/Login_singnup/sign_up_form/pageview_models/pageview_three.dart';
 import 'package:road_ster/presentation/Login_singnup/sign_up_form/pageview_models/pageview_two.dart';
 
+import '../../../application/image_picking/image_picking_cubit.dart';
 import '../../../domain/core/asset_images.dart';
 
 class SignUpForm extends StatefulWidget {
@@ -48,6 +49,7 @@ class _SignUpFormState extends State<SignUpForm> {
   static final formKeyThree = GlobalKey<FormState>();
   static final formKeyTwo = GlobalKey<FormState>();
   static final formKey = GlobalKey<FormState>();
+  File? fileImage;
 
   final focus = FocusNode();
 
@@ -81,46 +83,61 @@ class _SignUpFormState extends State<SignUpForm> {
     const PageViewModelFour()
   ];
   @override
-  void initState() {
-    super.initState();
+  void dispose() {
+    dateController.text = '';
+    nameController.text = "";
+    emailController.text = "";
+    phoneController.text = "";
+    addressController.text = "";
+    passwordController.text = "";
+    passwordConfirmController.text = "";
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
-          create: (context) => DatePickerCubit(),
-        ),
-        BlocProvider(
-          create: (context) => TextChangeCubit(),
-        ),
+        BlocProvider(create: (context) => DatePickerCubit()),
+        BlocProvider(create: (context) => TextChangeCubit()),
         BlocProvider(create: (context) => GetUsersDetailsCubit()),
         BlocProvider(create: (context) => PaswordvisibleCubit()),
         BlocProvider(create: (context) => LocationControllerCubit()),
         BlocProvider(create: (context) => UserRegistrationCubit()),
+        BlocProvider(create: (context) => ImagePickingCubit()),
       ],
       child: Builder(
         builder: (context) {
           context.read<GetUsersDetailsCubit>().getUserDetails();
-          return BlocListener<UserRegistrationCubit, UserRegistrationState>(
-            listener: (context, state) {
-              if (state is UserRegistrationOnprosess) {
-                Get.defaultDialog(
-                    title: "",
-                    content: Lottie.asset(ImagesStrings.loadingPrimary,
-                        width: 100, height: 100));
-              } else if (state is UserRegistrationOnsuccess) {
-                Get.back();
-                Get.offAll(() => LoginPage());
-              } else if (state is UserRegistrationOnError) {
-                Get.back();
-                Get.showSnackbar(GetSnackBar(
-                  title: "Something Wrong",
-                  message: state.message.splitMapJoin("l"),
-                ));
-              }
-            },
+          return MultiBlocListener(
+            listeners: [
+              BlocListener<UserRegistrationCubit, UserRegistrationState>(
+                listener: (context, state) {
+                  if (state is UserRegistrationOnprosess) {
+                    Get.defaultDialog(
+                        title: "",
+                        content: Lottie.asset(ImagesStrings.loadingPrimary,
+                            width: 100, height: 100));
+                  } else if (state is UserRegistrationOnsuccess) {
+                    Get.back();
+                    Get.offAll(() => LoginPage());
+                  } else if (state is UserRegistrationOnError) {
+                    Get.back();
+                    Get.showSnackbar(GetSnackBar(
+                      title: "Something Wrong",
+                      message: state.message.splitMapJoin("l"),
+                    ));
+                  }
+                },
+              ),
+              BlocListener<ImagePickingCubit, ImagePickingState>(
+                listener: (context, state) {
+                  if (state is ImagePickingOnDone) {
+                    fileImage = state.fileImage;
+                  }
+                },
+              )
+            ],
             child: Scaffold(
               backgroundColor: Colors.white,
               bottomNavigationBar:
@@ -162,7 +179,9 @@ class _SignUpFormState extends State<SignUpForm> {
                               const Text("Already Have account?"),
                               TextButton(
                                 child: const Text("Sign In"),
-                                onPressed: () {},
+                                onPressed: () {
+                                  Get.back();
+                                },
                               ),
                             ],
                           ),
@@ -196,6 +215,7 @@ class _SignUpFormState extends State<SignUpForm> {
                               context
                                   .read<UserRegistrationCubit>()
                                   .registerNewAccount(
+                                      fileImage: fileImage,
                                       name: nameController.text,
                                       email: emailController.text,
                                       gender: gender,

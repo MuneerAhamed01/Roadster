@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:road_ster/application/splash_screen/splashscreen_cubit.dart';
 import 'package:road_ster/domain/core/asset_images.dart';
 import 'package:road_ster/domain/core/sizedboxes.dart';
 import 'package:road_ster/presentation/splash_screen/splash_texts.dart';
+import '../bottom_nav/bottomnavigation_page.dart';
+import '../onboarding_screens/onboarding_1.dart';
 import 'liner_progress_bar.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -12,11 +15,13 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.read<SplashscreenCubit>().stateCheaking();
+    context.read<SplashscreenCubit>().stateCheaking(context);
     return BlocListener<SplashscreenCubit, SplashscreenState>(
-      listener: (context, state) {
+      listener: (context, state) async {
         if (state is SplashscreenOnBoard) {
-          Navigator.of(context).pushReplacementNamed("onboarding");
+          Get.off(() => const OnboardingOne());
+        } else if (state is SplashscreenHomePage) {
+          await Get.off(() => const BottomNavigation());
         }
       },
       child: Scaffold(

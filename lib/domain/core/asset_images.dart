@@ -9,4 +9,7 @@ class ImagesStrings {
   static const passwordImage = "lib/asset/88252-data-security.json";
   static const profilePicnull = "lib/asset/profilePic.webp";
   static const loadingPrimary = "lib/asset/loadindStandard.json";
+  static const svgOtp = "lib/asset/carOTP.svg";
+  static const backgroundImageOTP = "lib/asset/olav-tvedt--oVaYMgBMbs-unsplash.jpg";
+  static const backgroundImageOTP2 = 'lib/asset/otpCar.jpg';
 }

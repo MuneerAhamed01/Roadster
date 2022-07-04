@@ -2,14 +2,18 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/route_manager.dart';
-import 'package:road_ster/domain/core/asset_images.dart';
 import 'package:road_ster/presentation/routes/routes.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'domain/core/colors.dart';
 
+late SharedPreferences preferences;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  preferences = await SharedPreferences.getInstance();
+  await preferences.remove("isShowen");
+
   runApp(MyApp());
 }
 
@@ -23,7 +27,6 @@ class MyApp extends StatelessWidget {
         minTextAdapt: true,
         splitScreenMode: true,
         builder: (context, child) {
-          precacheImage(const AssetImage(ImagesStrings.imageSplash), context);
           return GetMaterialApp(
             supportedLocales: const [
               Locale('en', 'US'), // English

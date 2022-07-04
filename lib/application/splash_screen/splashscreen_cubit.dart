@@ -1,13 +1,24 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:meta/meta.dart';
+import 'package:road_ster/domain/models/user_login.dart';
+import 'package:road_ster/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../domain/core/asset_images.dart';
 
 part 'splashscreen_state.dart';
 
 class SplashscreenCubit extends Cubit<SplashscreenState> {
   SplashscreenCubit() : super(SplashscreenInitial());
-  void stateCheaking() async {
+  void stateCheaking(BuildContext context) async {
+    await precacheImage(const AssetImage(ImagesStrings.imageSplash), context);
+    await precacheImage(
+        const AssetImage(ImagesStrings.backgroundImageOTP), context);
+    await precacheImage(
+        const AssetImage(ImagesStrings.backgroundImageOTP2), context);
+
     LocationPermission permission;
 
     // Test if location services are enabled.
@@ -26,14 +37,14 @@ class SplashscreenCubit extends Cubit<SplashscreenState> {
       return Future.error(
           'Location permissions are permanently denied, we cannot request permissions.');
     }
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
 
-    final homeValue = sharedPreferences.getBool("key");
+    final response = preferences.getString("userData");
 
-    if (homeValue == null || !homeValue) {
+    if (response == null || response.isEmpty) {
       await Future.delayed(const Duration(seconds: 2));
       emit(SplashscreenOnBoard());
     } else {
+      loginDetailsFromJson(response);
       emit(SplashscreenHomePage());
     }
   }

@@ -55,9 +55,14 @@ dependencies:
   geolocator: ^9.0.0
   geocoding: ^2.0.4
   cloud_firestore: ^3.1.18
-  firebase_auth: ^3.3.20
+  carousel_slider: ^4.1.1
   firebase_core: ^1.18.0
-
+  image_picker: ^0.8.5+3
+  firebase_storage: ^10.2.18
+  iconify_flutter: ^0.0.4
+  flutter_otp_text_field: ^1.0.1
+  shimmer: ^2.0.0
+  api_cache_manager: ^1.0.2
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -99,6 +104,12 @@ flutter:
     - lib/asset/88252-data-security.json
     - lib/asset/profilePic.webp
     - lib/asset/loadindStandard.json
+    - lib/asset/carOTP.svg
+    - lib/asset/olav-tvedt--oVaYMgBMbs-unsplash.jpg
+    - lib/asset/otpCar.jpg
+    - lib/asset/cursoaltwo.jpeg
+    - lib/asset/cursoalone.jpg
+    - lib/asset/cursoalthree.jpeg
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

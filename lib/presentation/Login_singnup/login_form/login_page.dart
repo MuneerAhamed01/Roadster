@@ -8,11 +8,13 @@ import 'package:road_ster/application/password_visible/paswordvisible_cubit.dart
 import 'package:road_ster/application/user_login/user_login_cubit.dart';
 import 'package:road_ster/domain/core/asset_images.dart';
 import 'package:road_ster/domain/validations/login_validation.dart';
+import 'package:road_ster/presentation/Login_singnup/login_with_otp/otp_mobile_no.dart';
 import 'package:road_ster/presentation/Login_singnup/sign_up_form/sign_up.dart';
 import 'package:road_ster/presentation/Login_singnup/login_form/textfieldlogin.dart';
 
 import '../../../domain/core/colors.dart';
 import '../../../domain/core/sizedboxes.dart';
+import '../widget/text_button.dart';
 import 'heading_text.dart';
 
 class LoginPage extends StatelessWidget {
@@ -75,8 +77,8 @@ class LoginPage extends StatelessWidget {
                                       size: 30.sp,
                                     ),
                                     validator: (value) {
-                                      return ValidationTextField.emailValidations(
-                                          value);
+                                      return ValidationTextField
+                                          .emailValidations(value);
                                     }),
                                 h20,
                                 BlocBuilder<PaswordvisibleCubit,
@@ -86,8 +88,8 @@ class LoginPage extends StatelessWidget {
                                     return textfieldLogin(
                                         controller: _passwordController,
                                         suffix: SuffixIcon(
-                                          padding: 10.h,
-                                          stateValue: state.initial,
+                                            padding: 10.h,
+                                            stateValue: state.initial,
                                             iconData: state.initial
                                                 ? Icons.remove_red_eye
                                                 : Icons.visibility_off),
@@ -98,9 +100,8 @@ class LoginPage extends StatelessWidget {
                                           color: Colors.black,
                                           size: 30.sp,
                                         ),
-                                        validator: (p) =>
-                                            ValidationTextField.passwordValidation(
-                                                p));
+                                        validator: (p) => ValidationTextField
+                                            .passwordValidation(p));
                                   },
                                 ),
                                 h30,
@@ -141,53 +142,42 @@ class LoginPage extends StatelessWidget {
                                   ),
                                 ),
                                 const SizedBox(
-                                  height: 6,
+                                  height: 9,
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(left: 150),
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        "Forget password?",
-                                        style: GoogleFonts.outfit(
-                                            fontWeight: FontWeight.bold,
-                                            color: optionalText,
-                                            fontSize: 12),
-                                      ),
-                                      SizedBox(
-                                        width: 2.w,
-                                      ),
-                                      GestureDetector(
-                                        onTap: () {},
-                                        child: Text(
-                                          "Click here",
-                                          style: GoogleFonts.outfit(
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.blue,
-                                              fontSize: 12),
-                                        ),
-                                      )
-                                    ],
+                                  child: TextButtonCustomized(
+
+                                    color: optionalText,
+                                    textWithoutButton: "Forget password?",
+                                    textWithButton: "Click here",
+                                    fontSize: 12.h,
+                                    ontap: () {},
                                   ),
                                 ),
                                 h30,
-                                Text(
-                                  "Log in with OTP",
-                                  style: GoogleFonts.outfit(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20,
-                                      color: Colors.blue),
+                                GestureDetector(
+                                  onTap: () => GetxNav.Get.to(
+                                      () =>  OtpLoginNumber()),
+                                  child: Text(
+                                    "Log in with OTP",
+                                    style: GoogleFonts.outfit(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20,
+                                        color: Colors.blue),
+                                  ),
                                 ),
                                 sizedBox80,
                                 Container(
                                   decoration: BoxDecoration(
-                                      border: Border.all(color: Colors.black),
+                                      border: Border.all(
+                                          color: Color.fromRGBO(0, 0, 0, 1)),
                                       borderRadius: BorderRadius.circular(10)),
                                   width: 280.w,
                                   height: 45.h,
                                   child: MaterialButton(
                                       onPressed: () {
-                                        GetxNav.Get.to( SignUpForm(),
+                                        GetxNav.Get.to(SignUpForm(),
                                             transition:
                                                 GetxNav.Transition.fade);
                                       },
@@ -201,7 +191,8 @@ class LoginPage extends StatelessWidget {
                           ),
                         )
                       ],
-                    )
+                    ),
+                    h20
                   ],
                 ),
               ),
@@ -212,3 +203,5 @@ class LoginPage extends StatelessWidget {
     );
   }
 }
+
+

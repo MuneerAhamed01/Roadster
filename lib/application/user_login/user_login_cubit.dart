@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
 import 'package:road_ster/domain/models/user_login.dart';
 import 'package:road_ster/infastructure/login_and_signup/login_repository.dart';
+import 'package:road_ster/main.dart';
 
 part 'user_login_state.dart';
 
@@ -15,6 +16,7 @@ class UserLoginCubit extends Cubit<UserLoginState> {
 
     try {
       final response = await RepositoryHandler.loginCheaking(login);
+      preferences.setString("userData", response.data);
       loginDetailsFromJson(response.data);
 
       emit(UserLoginOnSucess());
