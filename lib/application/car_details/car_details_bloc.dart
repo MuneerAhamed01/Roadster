@@ -22,26 +22,31 @@ class CarDetailsBloc extends Bloc<CarDetailsEvent, CarDetailsState> {
     on<CarGetDetails>((event, emit) async {
       emit(CarDetailsOnProcessing());
       String? response;
+      final Position position = await Geolocator.getCurrentPosition();
 
       try {
         if (!await CacheDataRepository().cheackKeyIsThere()) {
-      log("----------------------------------------------------------------------------------------FromAPI------------------------------------------");
+          log("----------------------------------------------------------------------------------------FromAPI------------------------------------------");
 
           final responeAPI =
               await RepositoryHandler.getCarDetails(ApiValues.getCarDetails);
           CacheDataRepository().addCarFromCache(responeAPI.data);
           response = await CacheDataRepository().getCarFromCacheData();
         } else {
-      log("----------------------------------------------------------------------------------------FrmCacacacaad------------------------------------------");
+          log("----------------------------------------------------------------------------------------FrmCacacacaad------------------------------------------");
 
           response = await CacheDataRepository().getCarFromCacheData();
         }
         final carList = getCarDetailsFromJson(response);
-        final carListByKm = await SortingByOrder().sortByKm(carList.data);
-        final carListByNear = await SortingByOrder().nearByMe(carList.data);
-        final carListByTop = await SortingByOrder().topPicks(carList.data);
+        print("-----${carList.data[0].id}-------------------for test purpose------------------------");
+        final carListByKm = SortingByOrder().sortByKm(carList.data, position);
+        final carListByNear = SortingByOrder().nearByMe(carList.data, position);
+        final carListByTop = SortingByOrder().topPicks(carList.data);
         log(response);
+        // final List<double> kilometers = carListByKm[1];
+
         emit(CarDetailsDone(
+            currentPosition: position,
             carListByKM: carListByKm,
             carListByNearBy: carListByNear,
             carListByTopPick: carListByTop));
@@ -49,6 +54,43 @@ class CarDetailsBloc extends Bloc<CarDetailsEvent, CarDetailsState> {
         emit(CarDetailsError(e.toString()));
       }
       log("----------------------------------------------------------------------------------------notWorking------------------------------------------");
+    });
+    on<CarGetDetailsBySearch>((event, emit) async {
+      emit(CarDetailsOnProcessing());
+      final Position position = await Geolocator.getCurrentPosition();
+
+      final cacheData = await CacheDataRepository().getCarFromCacheData();
+      final data = getCarDetailsFromJson(cacheData);
+      if (event.value.isEmpty) {
+        final carList = getCarDetailsFromJson(cacheData);
+        // print("-----${carList.data[0].brand}");
+        final carListByKm = SortingByOrder().sortByKm(carList.data, position);
+        final carListByNear = SortingByOrder().nearByMe(carList.data, position);
+        final carListByTop = SortingByOrder().topPicks(carList.data);
+        // log(response);
+        // final List<double> kilometers = carListByKm[1];
+
+        emit(CarDetailsDone(
+            currentPosition: position,
+            carListByKM: carListByKm,
+            carListByNearBy: carListByNear,
+            carListByTopPick: carListByTop));
+      } else {
+        List<Datum>? dataList = data.data
+            .where((car) => car.brand
+                .toLowerCase()
+                .trim()
+                .contains(event.value.toLowerCase().trim()))
+            .toList();
+        if (dataList == null || dataList.isEmpty) {
+          print("object");
+          emit(CarDetailsSearchEmpty());
+        } else {
+          emit(CarDetailsSearch(list: dataList, currentPosition: position));
+        }
+      }
+
+      // TODO: implement event handler
     });
   }
 }

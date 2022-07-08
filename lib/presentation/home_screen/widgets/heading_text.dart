@@ -15,7 +15,7 @@ class HeadingHomeText extends StatelessWidget {
       style: GoogleFonts.lato(shadows: [
         Shadow(
             color: const Color.fromRGBO(0, 0, 0, 200),
-            blurRadius: 10,
+            blurRadius: 7.8,
             offset: Offset.fromDirection(13.9, 5))
       ], fontSize: 19.sp, fontWeight: FontWeight.bold),
     );

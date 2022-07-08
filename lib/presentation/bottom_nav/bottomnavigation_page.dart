@@ -6,6 +6,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:road_ster/application/bottomnavigation/bottomnavigation_cubit.dart';
+import 'package:road_ster/application/car_details/car_details_bloc.dart';
 import 'package:road_ster/application/scrolllistener/scroll_listener_cubit.dart';
 import 'package:road_ster/main.dart';
 import 'package:road_ster/presentation/bottom_nav/widget/bottomnav.dart';
@@ -15,12 +16,12 @@ import 'package:road_ster/presentation/settings/settings_screen.dart';
 import 'package:road_ster/presentation/watchlist/watchlist.dart';
 
 class BottomNavigation extends StatelessWidget {
-  const BottomNavigation({Key? key}) : super(key: key);
-  final List<Widget> screen = const [
-    HomeScreen(),
-    CarListed(),
+   BottomNavigation({Key? key}) : super(key: key);
+  final List<Widget> screen =  [
+    const HomeScreen(),
+    const CarListed(),
     WatchlistCar(),
-    SettingsPage()
+    const SettingsPage()
   ];
 
   @override
@@ -32,6 +33,9 @@ class BottomNavigation extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => BottomnavigationCubit(),
+        ),
+        BlocProvider(
+          create: (context) => CarDetailsBloc(),
         ),
       ],
       child: BlocBuilder<BottomnavigationCubit, BottomnavigationState>(

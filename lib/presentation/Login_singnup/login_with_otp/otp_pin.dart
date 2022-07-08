@@ -60,7 +60,7 @@ class _OTPpinGenerateState extends State<OTPpinGenerate> {
             } else if (state is OtpcheakingOnMobcheack) {
               context.read<OtpresendtimerCubit>().timerCheack(1);
 
-              Get.offAll(() => const BottomNavigation());
+              Get.offAll(() =>  BottomNavigation());
               log("--------------------OnDone--------------------------------");
             } else if (state is OtpcheakMobError) {
               log("--------------------onError--------------------------------");

@@ -44,7 +44,8 @@ class SplashscreenCubit extends Cubit<SplashscreenState> {
       await Future.delayed(const Duration(seconds: 2));
       emit(SplashscreenOnBoard());
     } else {
-      loginDetailsFromJson(response);
+      final responseDaat = loginDetailsFromJson(response);
+      print(responseDaat.id);
       emit(SplashscreenHomePage());
     }
   }

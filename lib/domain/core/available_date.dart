@@ -55,7 +55,9 @@ class DateContainer extends StatelessWidget {
 class DatePickContainer extends StatelessWidget {
   const DatePickContainer({
     Key? key,
+    required this.name,
   }) : super(key: key);
+  final String name;
 
   @override
   Widget build(BuildContext context) {
@@ -72,9 +74,9 @@ class DatePickContainer extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Hai Muneer...",
-                style: GoogleFonts.roboto(
-                    fontSize: 30.sp, fontWeight: FontWeight.bold),
+                "HAI $name...",
+                style: GoogleFonts.openSans(
+                    fontSize: 25.sp, fontWeight: FontWeight.bold),
               ),
               h10,
               Text(
@@ -88,6 +90,21 @@ class DatePickContainer extends StatelessWidget {
                   DateContainer(ontap: () {}, text: "From"),
                   DateContainer(ontap: () {}, text: "To"),
                 ],
+              ),
+              h30,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 30),
+                child: Container(
+                    width: double.infinity,
+                    height: 50,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color: Colors.blue[300]),
+                    child: MaterialButton(
+                        onPressed: () {},
+                        child: const Text(
+                          "Done",
+                        ))),
               )
             ],
           ),

@@ -1,24 +1,19 @@
-import 'package:carousel_slider/carousel_slider.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:road_ster/domain/core/asset_images.dart';
+import 'package:road_ster/application/get_watchlist_data/get_watchlist_data_bloc.dart';
 import 'package:road_ster/domain/core/colors.dart';
 import 'package:road_ster/domain/core/shimmer.dart';
 import 'package:road_ster/domain/core/sizedboxes.dart';
 import 'package:road_ster/domain/models/user_login.dart';
 import 'package:road_ster/main.dart';
 import 'package:road_ster/presentation/home_screen/widgets/carosel.dart';
-import 'package:road_ster/presentation/home_screen/widgets/cursoal_container.dart';
 import 'package:road_ster/presentation/home_screen/widgets/heading_text.dart';
-import 'package:road_ster/presentation/watchlist/watchlist.dart';
 
 import '../../application/car_details/car_details_bloc.dart';
+import '../../domain/core/available_date.dart';
 import '../../domain/core/car_container.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -30,10 +25,12 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final _bloc = CarDetailsBloc();
+  final _getWachBloc = GetWatchlistDataBloc();
   final String? response = preferences.getString("userData");
-  late LoginDetails  userDetals;
+  late LoginDetails userDetals;
   @override
   void initState() {
+    _getWachBloc.add(GetWatchListIstrue());
     userDetals = loginDetailsFromJson(response!);
     _bloc.add(CarGetDetails());
     super.initState();
@@ -43,8 +40,11 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backgroundColor,
-      body: BlocProvider(
-        create: (_) => _bloc,
+      body: MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (_) => _bloc),
+          BlocProvider(create: (_) => _getWachBloc),
+        ],
         child: BlocBuilder<CarDetailsBloc, CarDetailsState>(
             builder: (context, state) {
           return SingleChildScrollView(
@@ -61,11 +61,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: GestureDetector(
                         onTap: () {
                           Get.bottomSheet(
-                               Padding(
+                              Padding(
                                 padding: EdgeInsets.symmetric(
                                     horizontal: 10.w, vertical: 20.h),
                                 child: DatePickContainer(
-                                  name:userDetals.name,
+                                  name: userDetals.name,
                                 ),
                               ),
                               isDismissible: false);
@@ -89,19 +89,29 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 h20,
                 ListOfCars(
-                  child: ListView.separated(
-                    separatorBuilder: (context, index) => w10,
-                    itemBuilder: (context, index) => state is CarDetailsDone
-                        ? CarContainer(
-                            carList: state.carListByNearBy,
-                            index: index,
-                          )
-                        : ShimmerWidget(width: 200, height: 200),
-                    itemCount: state is CarDetailsDone
-                        ? state.carListByNearBy.length
-                        : 5,
-                    scrollDirection: Axis.horizontal,
-                    shrinkWrap: true,
+                  child:
+                      BlocBuilder<GetWatchlistDataBloc, GetWatchlistDataState>(
+                    builder: (context, stateWatch) {
+                      return ListView.separated(
+                        // reverse: true,
+                        separatorBuilder: (context, index) => w10,
+                        itemBuilder: (context, index) =>
+                            state is CarDetailsDone &&
+                                    stateWatch is GetWatchlistDataGetDone
+                                ? CarContainer(
+                                    isWachList: stateWatch.ids!,
+                                    position: state.currentPosition,
+                                    carList: state.carListByNearBy[index],
+                                    index: index,
+                                  )
+                                : const ShimmerWidget(width: 200, height: 200),
+                        itemCount: state is CarDetailsDone
+                            ? state.carListByNearBy.length
+                            : 5,
+                        scrollDirection: Axis.horizontal,
+                        shrinkWrap: true,
+                      );
+                    },
                   ),
                 ),
                 h20,
@@ -111,26 +121,35 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 h20,
                 ListOfCars(
-                  child: ListView.separated(
-                    separatorBuilder: (context, index) => w10,
-                    itemBuilder: (context, index) => state is CarDetailsDone
-                        ? CarContainer(
-                            carList: state.carListByTopPick,
-                            index: index,
-                          )
-                        : ShimmerWidget(width: 200, height: 200),
-                    itemCount: state is CarDetailsDone
-                        ? state.carListByTopPick.length
-                        : 5,
-                    scrollDirection: Axis.horizontal,
-                    shrinkWrap: true,
+                  child:
+                      BlocBuilder<GetWatchlistDataBloc, GetWatchlistDataState>(
+                    builder: (context, stateWatch) {
+                      return ListView.separated(
+                        separatorBuilder: (context, index) => w10,
+                        itemBuilder: (context, index) =>
+                            state is CarDetailsDone &&
+                                    stateWatch is GetWatchlistDataGetDone
+                                ? CarContainer(
+                                    isWachList: stateWatch.ids!,
+                                    position: state.currentPosition,
+                                    carList: state.carListByTopPick[index],
+                                    index: index,
+                                  )
+                                :  ShimmerWidget(width: 200.w, height: 200.h),
+                        itemCount: state is CarDetailsDone
+                            ? state.carListByTopPick.length
+                            : 5,
+                        scrollDirection: Axis.horizontal,
+                        shrinkWrap: true,
+                      );
+                    },
                   ),
                 ),
                 h20
               ],
             ),
           );
-        }),
+        },),
       ),
     );
   }

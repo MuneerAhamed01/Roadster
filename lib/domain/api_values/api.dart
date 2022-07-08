@@ -6,4 +6,7 @@ class ApiValues {
   static const otpurl = "/user/otpnumber";
   static const otpgetUrl = "/user/otpvalidate";
   static const getCarDetails = '/user/getcarData';
+  static const getWatchList = "/user/getdatafromwishlist";
+  static const addTowatchlist = "/user/dataTowishlist/";
+  static const removefromWatchList = "/user/removefromwishlist/";
 }

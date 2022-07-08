@@ -12,7 +12,9 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   preferences = await SharedPreferences.getInstance();
-  await preferences.remove("isShowen");
+  // await preferences.remove("userData");
+  
+  
 
   runApp(MyApp());
 }

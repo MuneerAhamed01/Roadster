@@ -15,13 +15,16 @@ class UserLoginCubit extends Cubit<UserLoginState> {
     Map<String, dynamic> login = {"email": email, "password": password};
 
     try {
+      print("data");
       final response = await RepositoryHandler.loginCheaking(login);
-      preferences.setString("userData", response.data);
+
+      await preferences.setString("userData", response.data);
       loginDetailsFromJson(response.data);
+      print("--${response.data}----");
 
       emit(UserLoginOnSucess());
     } catch (e) {
-      print(e);
+      print(e.toString());
       emit(UserLoginOnError(e.toString()));
     }
   }

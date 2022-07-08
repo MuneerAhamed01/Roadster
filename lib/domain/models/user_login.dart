@@ -22,7 +22,7 @@ class LoginDetails {
     String email;
     bool loginDetailsIsBlock;
     String name;
-    bool isBlock;
+    bool? isBlock;
     String token;
 
     factory LoginDetails.fromJson(Map<String, dynamic> json) => LoginDetails(

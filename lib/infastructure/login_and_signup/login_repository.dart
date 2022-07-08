@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:api_cache_manager/models/cache_db_model.dart';
 import 'package:api_cache_manager/utils/cache_manager.dart';
 import 'package:dio/dio.dart';
+import 'package:road_ster/application/get_watchlist_data/get_watchlist_data_bloc.dart';
 import 'package:road_ster/domain/api_values/api.dart';
 import 'package:road_ster/domain/models/get_car_details.dart';
 
@@ -91,4 +92,35 @@ class RepositoryHandler {
       throw "OOPS! Something went wrong";
     }
   }
+  static Future<Response<dynamic>> getWatchlistData(String value, Map<String, dynamic> json) async {
+    try {
+      final response = await _dio.post(value,data: jsonEncode(json));
+
+      return response;
+    } on DioError catch (e) {
+      if (e.type == DioErrorType.response) {
+        throw e.response!.data.toString();
+      } else {
+        throw "Cheak your internet connecion and try again";
+      }
+    } catch (e) {
+      throw "OOPS! Something went wrong";
+    }
+  }
+  static Future<Response<dynamic>> addtoWatchlist(String value, Map<String, dynamic> json) async {
+    try {
+      final response = await _dio.post(value,data: jsonEncode(json));
+
+      return response;
+    } on DioError catch (e) {
+      if (e.type == DioErrorType.response) {
+        throw e.response!.data.toString();
+      } else {
+        throw "Cheak your internet connecion and try again";
+      }
+    } catch (e) {
+      throw "OOPS! Something went wrong";
+    }
+  }
+  
 }

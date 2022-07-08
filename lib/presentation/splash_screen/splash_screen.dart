@@ -5,9 +5,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:road_ster/application/splash_screen/splashscreen_cubit.dart';
 import 'package:road_ster/domain/core/asset_images.dart';
 import 'package:road_ster/domain/core/sizedboxes.dart';
+import 'package:road_ster/presentation/Login_singnup/login_form/login_page.dart';
 import 'package:road_ster/presentation/splash_screen/splash_texts.dart';
 import '../bottom_nav/bottomnavigation_page.dart';
-import '../onboarding_screens/onboarding_1.dart';
 import 'liner_progress_bar.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -19,9 +19,9 @@ class SplashScreen extends StatelessWidget {
     return BlocListener<SplashscreenCubit, SplashscreenState>(
       listener: (context, state) async {
         if (state is SplashscreenOnBoard) {
-          Get.off(() => const OnboardingOne());
+          Get.off(() =>  LoginPage());
         } else if (state is SplashscreenHomePage) {
-          await Get.off(() => const BottomNavigation());
+          await Get.off(() =>   BottomNavigation());
         }
       },
       child: Scaffold(

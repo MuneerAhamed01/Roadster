@@ -1,100 +1,143 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:road_ster/application/get_watchlist_data/get_watchlist_data_bloc.dart';
+import 'package:road_ster/application/watchlist_search/search_view_watch_cubit.dart';
+import 'package:road_ster/domain/core/colors.dart';
+import 'package:road_ster/domain/core/shimmer.dart';
 import 'package:road_ster/domain/core/sizedboxes.dart';
+import 'package:road_ster/presentation/watchlist/widgets/watchlist_container.dart';
+import '../car_list/widget/app_bar.dart';
 
-import '../../domain/core/available_date.dart';
-
-class WatchlistCar extends StatelessWidget {
+class WatchlistCar extends StatefulWidget {
   const WatchlistCar({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: BookingCheakDate(),
-        ),
-      ),
-    );
-  }
+  State<WatchlistCar> createState() => _WatchlistCarState();
 }
 
-class BookingCheakDate extends StatelessWidget {
-  const BookingCheakDate({
-    Key? key,
-  }) : super(key: key);
+class _WatchlistCarState extends State<WatchlistCar> {
+  final _bloc = GetWatchlistDataBloc();
+
+  @override
+  void initState() {
+    _bloc.add(GetWatchListData());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(20),
-      child: DatePickContainer(
-        name: "MUnerr",
+    _bloc.add(GetWatchListData());
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => SearchViewWatchCubit()),
+        BlocProvider(create: (_) => _bloc),
+      ],
+      child: Scaffold(
+        body: SingleChildScrollView(
+          child: SafeArea(
+              child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 15.w),
+            child: BlocBuilder<SearchViewWatchCubit, SearchViewWatchState>(
+              builder: (context, state) {
+                state as SearchViewWatchOnPressed;
+                return SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      h10,
+                      Padding(
+                        padding: EdgeInsets.only(top: 5.h),
+                        child: Row(
+                          children: [
+                            Text(
+                              "Your Watchlist",
+                              style: GoogleFonts.openSans(
+                                  color: textColorBrown,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            const Spacer(),
+                            Visibility(
+                              visible: !state.onPressed,
+                              child: IconButton(
+                                  onPressed: () {
+                                    context
+                                        .read<SearchViewWatchCubit>()
+                                        .onPressed(state.onPressed);
+                                  },
+                                  icon: const Icon(
+                                    Icons.search,
+                                    color: textColorBrown,
+                                  )),
+                            )
+                          ],
+                        ),
+                      ),
+                      Visibility(
+                        visible: state.onPressed,
+                        child: Padding(
+                          padding: EdgeInsets.only(top: 10.h),
+                          child: AppBarCustomized(
+                            suffixIcon: IconButton(
+                              onPressed: () {
+                                context
+                                    .read<SearchViewWatchCubit>()
+                                    .onPressed(state.onPressed);
+                              },
+                              icon: const Icon(
+                                FontAwesomeIcons.xmark,
+                                size: 16,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      h15,
+                      BlocBuilder<GetWatchlistDataBloc, GetWatchlistDataState>(
+                        builder: (context, stateCar) {
+                          if (stateCar is GetWatchlistDataGetDone) {
+                            if (stateCar.carList!.isEmpty) {
+                              return Padding(
+                                padding:  EdgeInsets.only(top: 300.h),
+                                child: const Center(
+                                    child: Text("Add Some Cars To Watchlsit")),
+                              );
+                            }
+                            return ListView.separated(
+                              controller: ScrollController(),
+                              itemBuilder: (context, index) =>
+                                  WatchListContainer(
+                                carList: stateCar.carList![index],
+                              ),
+                              shrinkWrap: true,
+                              itemCount: stateCar.carList!.length,
+                              separatorBuilder: (context, index) => h10,
+                            );
+                          } else {
+                            return ListView.separated(
+                              controller: ScrollController(),
+                              itemBuilder: (context, index) => ShimmerWidget(
+                                  width: double.infinity, height: 200.h),
+                              shrinkWrap: true,
+                              itemCount: 5,
+                              separatorBuilder: (context, index) => h10,
+                            );
+                          }
+                        },
+                      ),
+                      h10
+                    ],
+                  ),
+                );
+              },
+            ),
+          )),
+        ),
       ),
     );
-  }
-}
-
-class DatePickContainer extends StatelessWidget {
-  const DatePickContainer({
-    Key? key,
-    required this.name,
-  }) : super(key: key);
-  final String name;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        height: 300,
-        width: double.infinity,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: Colors.white,
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 25),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "HAI $name...",
-                style: GoogleFonts.openSans(
-                    fontSize: 25.sp, fontWeight: FontWeight.bold),
-              ),
-              h10,
-              Text(
-                "Tell us when your Ride starts.It's helpful to show you the Available items",
-                style: GoogleFonts.outfit(),
-              ),
-              h20,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  DateContainer(ontap: () {}, text: "From"),
-                  DateContainer(ontap: () {}, text: "To"),
-                ],
-              ),
-              h30,
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 30),
-                child: Container(
-                    width: double.infinity,
-                    height: 50,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: Colors.blue[300]),
-                    child: MaterialButton(
-                        onPressed: () {},
-                        child: const Text(
-                          "Done",
-                        ))),
-              )
-            ],
-          ),
-        ));
   }
 }

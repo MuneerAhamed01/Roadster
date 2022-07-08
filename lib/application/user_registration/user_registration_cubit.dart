@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
@@ -48,15 +49,21 @@ class UserRegistrationCubit extends Cubit<UserRegistrationState> {
       "gender": gender,
       "address": address,
       "district": district,
-      "password": password
+      "password": password,
+      
     };
     try {
-      final response = await RepositoryHandler.registerUser(signUp);
-      preferences.setString("userData", response.data);
+      print("--------------------------------------------------going");
+      
+      await RepositoryHandler.registerUser(signUp);
+      print("--------------------------------------------------");
+      // await preferences.setString("userData", response.data);
 
-      loginDetailsFromJson(response.data);
+      // loginDetailsFromJson(response.data);
       emit(UserRegistrationOnsuccess());
     } catch (e) {
+      log("--------------------------------------------------");
+
       print(e.toString());
       emit(UserRegistrationOnError(e.toString()));
     }

@@ -14,6 +14,7 @@ import 'package:road_ster/presentation/Login_singnup/login_form/textfieldlogin.d
 
 import '../../../domain/core/colors.dart';
 import '../../../domain/core/sizedboxes.dart';
+import '../../bottom_nav/bottomnavigation_page.dart';
 import '../widget/text_button.dart';
 import 'heading_text.dart';
 
@@ -117,7 +118,10 @@ class LoginPage extends StatelessWidget {
                                             colorText: Colors.white,
                                             backgroundColor: Colors.redAccent);
                                       }
-                                      if (state is UserLoginOnSucess) {}
+                                      if (state is UserLoginOnSucess) {
+                                        // print("-----");
+                                        GetxNav.Get.off(BottomNavigation());
+                                      }
                                     },
                                     builder: (context, state) {
                                       return ElevatedButton(
@@ -141,24 +145,10 @@ class LoginPage extends StatelessWidget {
                                     },
                                   ),
                                 ),
-                                const SizedBox(
-                                  height: 9,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 150),
-                                  child: TextButtonCustomized(
-
-                                    color: optionalText,
-                                    textWithoutButton: "Forget password?",
-                                    textWithButton: "Click here",
-                                    fontSize: 12.h,
-                                    ontap: () {},
-                                  ),
-                                ),
-                                h30,
+                                h40,
                                 GestureDetector(
-                                  onTap: () => GetxNav.Get.to(
-                                      () =>  OtpLoginNumber()),
+                                  onTap: () =>
+                                      GetxNav.Get.to(() => OtpLoginNumber()),
                                   child: Text(
                                     "Log in with OTP",
                                     style: GoogleFonts.outfit(
@@ -171,7 +161,7 @@ class LoginPage extends StatelessWidget {
                                 Container(
                                   decoration: BoxDecoration(
                                       border: Border.all(
-                                          color: Color.fromRGBO(0, 0, 0, 1)),
+                                          color: const Color.fromRGBO(0, 0, 0, 1)),
                                       borderRadius: BorderRadius.circular(10)),
                                   width: 280.w,
                                   height: 45.h,
@@ -203,5 +193,3 @@ class LoginPage extends StatelessWidget {
     );
   }
 }
-
-
