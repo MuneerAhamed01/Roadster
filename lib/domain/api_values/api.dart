@@ -9,4 +9,5 @@ class ApiValues {
   static const getWatchList = "/user/getdatafromwishlist";
   static const addTowatchlist = "/user/dataTowishlist/";
   static const removefromWatchList = "/user/removefromwishlist/";
+  static const districtData = "/user/getdistrict";
 }

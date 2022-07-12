@@ -24,9 +24,11 @@ class TextForCarName extends StatelessWidget {
         carBrand + carModel,
         overflow: TextOverflow.ellipsis,
         style: GoogleFonts.lato(
+          
           fontSize: fontsize,
           fontWeight: FontWeight.bold,
         ),
+        textAlign:TextAlign.center
       ),
     );
   }

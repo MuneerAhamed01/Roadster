@@ -65,6 +65,7 @@ dependencies:
   api_cache_manager: ^1.0.2
   grouped_list: ^5.1.2
   sticky_headers: "^0.3.0"
+  find_dropdown: ^1.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
