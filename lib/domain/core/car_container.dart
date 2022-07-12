@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:road_ster/domain/core/car_list_by_km.dart';
 import 'package:road_ster/domain/core/sizedboxes.dart';
+import 'package:road_ster/domain/core/widgets/location_radius.dart';
 import 'package:road_ster/domain/core/widgets/text_car.dart';
 import 'package:road_ster/domain/models/get_car_details.dart';
 
@@ -29,7 +30,7 @@ class CarContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     // print(isWachList);
     return GestureDetector(
-      onTap: ()=>Get.to(()=>CarDetailsPage()),
+      onTap: ()=>Get.to(()=>CarDetailsPage(carList: carList!,position: position,)),
       child: Container(
         height: 240.h,
         width: 200.w,
@@ -58,25 +59,7 @@ class CarContainer extends StatelessWidget {
                     align: Alignment.topRight.add(const Alignment(-0.1, 0))),
                 Padding(
                   padding: const EdgeInsets.all(6),
-                  child: Container(
-                    alignment: Alignment.center,
-                    height: 20,
-                    width: 50,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.20),
-                            blurRadius: 2,
-                            blurStyle: BlurStyle.normal,
-                          )
-                        ],
-                        borderRadius: BorderRadius.circular(5)),
-                    child: Text(
-                      "${carListKm(carList!, position)}Km",
-                      style: GoogleFonts.outfit(color: Colors.black, fontSize: 8),
-                    ),
-                  ),
+                  child: KiloMeterView(carList: carList, position: position),
                 )
               ],
             ),
@@ -131,3 +114,5 @@ class CarContainer extends StatelessWidget {
     );
   }
 }
+
+

@@ -19,16 +19,19 @@ Widget fuelType = Column(
 Widget seats = Column(
   children: [h10, Icon(Icons.chair_alt, size: 70.sp, color: Colors.white), h10],
 );
+
 class MilageSub extends StatelessWidget {
   const MilageSub({
     Key? key,
+    required this.mileage,
   }) : super(key: key);
+  final String mileage;
 
   @override
   Widget build(BuildContext context) {
     return RichText(
       text: TextSpan(
-        text: "30",
+        text: mileage,
         style: GoogleFonts.lato(
             fontWeight: FontWeight.bold, color: Colors.white, fontSize: 30),
         children: const [
@@ -38,15 +41,18 @@ class MilageSub extends StatelessWidget {
     );
   }
 }
+
 class FuelTypeSub extends StatelessWidget {
   const FuelTypeSub({
     Key? key,
+    required this.fuelType,
   }) : super(key: key);
+  final String fuelType;
 
   @override
   Widget build(BuildContext context) {
     return Text(
-      "Diesel",
+      fuelType,
       style: GoogleFonts.openSans(
         fontWeight: FontWeight.bold,
         color: Colors.white,
@@ -55,16 +61,18 @@ class FuelTypeSub extends StatelessWidget {
     );
   }
 }
+
 class SeatsSub extends StatelessWidget {
   const SeatsSub({
-    Key? key,
+    Key? key, required this.seats,
   }) : super(key: key);
+  final String seats;
 
   @override
   Widget build(BuildContext context) {
     return RichText(
       text: TextSpan(
-        text: "4",
+        text: seats,
         style: GoogleFonts.lato(
             fontWeight: FontWeight.bold, color: Colors.white, fontSize: 30),
         children: const [
@@ -74,6 +82,7 @@ class SeatsSub extends StatelessWidget {
     );
   }
 }
+
 class SpecificationWidget extends StatelessWidget {
   const SpecificationWidget({
     Key? key,
