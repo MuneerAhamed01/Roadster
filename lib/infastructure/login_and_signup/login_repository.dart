@@ -122,5 +122,20 @@ class RepositoryHandler {
       throw "OOPS! Something went wrong";
     }
   }
+  static Future<Response<dynamic>> getBookingDetais(String value) async {
+    try {
+      final response = await _dio.get(value);
+
+      return response;
+    } on DioError catch (e) {
+      if (e.type == DioErrorType.response) {
+        throw e.response!.data.toString();
+      } else {
+        throw "Cheak your internet connecion and try again";
+      }
+    } catch (e) {
+      throw "OOPS! Something went wrong";
+    }
+  }
   
 }

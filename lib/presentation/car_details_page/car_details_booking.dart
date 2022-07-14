@@ -42,7 +42,7 @@ class CarDetailsPage extends StatelessWidget {
         carList: carList,
         position: position,
       ),
-      bottomNavigationBar: PriceAndBooking(carList: carList),
+      bottomNavigationBar: PriceAndBooking(carList: carList,position: position),
     );
   }
 }

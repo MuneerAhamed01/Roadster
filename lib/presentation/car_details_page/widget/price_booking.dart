@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:road_ster/domain/core/widgets/border_radius.dart';
@@ -11,10 +12,11 @@ import '../../../domain/core/sizedboxes.dart';
 class PriceAndBooking extends StatelessWidget {
   const PriceAndBooking({
     Key? key,
-    required this.carList,
+    required this.carList, required this.position,
   }) : super(key: key);
 
   final Datum carList;
+  final Position position;
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +47,10 @@ class PriceAndBooking extends StatelessWidget {
             space,
             MaterialButton(
               onPressed: () {
-                Get.to(() => CarBookingPage());
+                Get.to(() => CarBookingPage(
+                  position: position,
+                      carList: carList,
+                    ));
               },
               child: Container(
                 alignment: Alignment.center,

@@ -23,12 +23,12 @@ class CarListed extends StatefulWidget {
 
 class _CarListedState extends State<CarListed> {
   final scrollcontroller = ScrollController();
-  final CarDetailsBloc _bloc = CarDetailsBloc();
+  // final CarDetailsBloc _bloc = CarDetailsBloc();
 
   final GetWatchlistDataBloc _getWatchlistDataBloc = GetWatchlistDataBloc();
   @override
   void initState() {
-    _bloc.add(CarGetDetails());
+    // _bloc.add(CarGetDetailsCarList());
     _getWatchlistDataBloc.add(GetWatchListIstrue());
     super.initState();
   }
@@ -37,7 +37,7 @@ class _CarListedState extends State<CarListed> {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (_) => _bloc),
+        // BlocProvider(create: (_) => _bloc),
         BlocProvider(create: (_) => _getWatchlistDataBloc)
       ],
       child: Builder(
@@ -93,7 +93,7 @@ class _CarListedState extends State<CarListed> {
                                                                                 isWachList: stateWatch.ids! ,
 
                                         position: state.currentPosition,
-                                        carList: state.carListByKM[index],
+                                        carList: state.carListByKM![index],
                                         index: index,
                                       );
                                     } else if (state is CarDetailsSearch && stateWatch is GetWatchlistDataGetDone) {
@@ -110,7 +110,7 @@ class _CarListedState extends State<CarListed> {
                                   },
                                   shrinkWrap: true,
                                   itemCount: state is CarDetailsDone
-                                      ? state.carListByKM.length
+                                      ? state.carListByKM!.length
                                       : state is CarDetailsSearch
                                           ? state.list.length
                                           : 7,

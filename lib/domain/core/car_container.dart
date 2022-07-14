@@ -10,7 +10,6 @@ import 'package:road_ster/domain/core/widgets/text_car.dart';
 import 'package:road_ster/domain/models/get_car_details.dart';
 
 import '../../presentation/car_details_page/car_details_booking.dart';
-import 'asset_images.dart';
 import 'favirote_button.dart';
 
 class CarContainer extends StatelessWidget {

@@ -2,7 +2,9 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:geolocator/geolocator.dart';
+import 'package:intl/intl.dart';
 
+import '../domain/models/booking_details.dart';
 import '../domain/models/get_car_details.dart';
 import 'cache_data_repo.dart';
 
@@ -52,8 +54,8 @@ class SortingByOrder {
 
   static Future<List<Datum>> watchList(String response) async {
     List<Datum> list = [];
-    final Map<String,dynamic> fromJson = jsonDecode(response);
-   
+    final Map<String, dynamic> fromJson = jsonDecode(response);
+
     final carDetails = await CacheDataRepository().getCarFromCacheData();
     final carDetailsList = getCarDetailsFromJson(carDetails);
     for (var ids in fromJson['wishlist']) {
@@ -66,10 +68,11 @@ class SortingByOrder {
 
     return list;
   }
-   static Future<List<String>> watchListIds(String response) async {
+
+  static Future<List<String>> watchListIds(String response) async {
     List<String> list = [];
-    final Map<String,dynamic> fromJson = jsonDecode(response);
-   
+    final Map<String, dynamic> fromJson = jsonDecode(response);
+
     final carDetails = await CacheDataRepository().getCarFromCacheData();
     final carDetailsList = getCarDetailsFromJson(carDetails);
     for (var ids in fromJson['wishlist']) {
@@ -81,5 +84,63 @@ class SortingByOrder {
     }
 
     return list;
+  }
+
+  static List<String> sortByDateTime(
+    List<String> dateValue,
+    String bookedList,
+  ) {
+    List<String> valuesForAvaliablityCheack = [];
+
+    final listOfBooked = getBookingDetailsFromJson(bookedList);
+    // print(listOfBooked.data);
+    for (var e in listOfBooked.data) {
+      if (e.complete == false && e.cancel == false) {
+        log("-------------------------coming in map");
+        final startDateOfCar = DateFormat("dd/MM/yyyy").parse(e.startDate);
+        final endDateOfCar = DateFormat("dd/MM/yyyy").parse(e.endDate);
+        final endDateOfCustomer = DateTime.parse(dateValue[1]);
+        final startDateOfCustomer = DateTime.parse(dateValue[0]);
+        if (startDateOfCustomer.isBetween(startDateOfCar, endDateOfCar) ||
+            endDateOfCustomer.isBetween(startDateOfCar, endDateOfCar)) {
+          valuesForAvaliablityCheack.add(e.carId);
+        }
+      }
+    }
+    // print(valuesForAvaliablityCheack);
+    return valuesForAvaliablityCheack;
+  }
+}
+
+extension DateTimeExtension on DateTime {
+  bool? isAfterOrEqualTo(DateTime dateTime) {
+    final date = this;
+    if (date != null) {
+      final isAtSameMomentAs = dateTime.isAtSameMomentAs(date);
+      return isAtSameMomentAs | date.isAfter(dateTime);
+    }
+    return null;
+  }
+
+  bool? isBeforeOrEqualTo(DateTime dateTime) {
+    final date = this;
+    if (date != null) {
+      final isAtSameMomentAs = dateTime.isAtSameMomentAs(date);
+      return isAtSameMomentAs | date.isBefore(dateTime);
+    }
+    return null;
+  }
+
+  bool isBetween(
+    DateTime fromDateTime,
+    DateTime toDateTime,
+  ) {
+    final date = this;
+
+    final isAfter = date.isAfterOrEqualTo(fromDateTime) ?? false;
+    final isBefore = date.isBeforeOrEqualTo(toDateTime) ?? false;
+    return isAfter && isBefore;
+
+    // return null;
   }
 }

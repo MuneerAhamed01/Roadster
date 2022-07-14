@@ -18,6 +18,7 @@ class GetWatchlistDataBloc
     extends Bloc<GetWatchlistDataEvent, GetWatchlistDataState> {
   GetWatchlistDataBloc() : super(GetWatchlistDataInitial()) {
     on<GetWatchListData>((event, emit) async {
+     
       emit(GetWatchlistDataOnprocess());
       final responseId = preferences.getString("userData");
       final userId = loginDetailsFromJson(responseId!).id;

@@ -8,16 +8,16 @@ class CarDetailsInitial extends CarDetailsState {}
 class CarDetailsOnProcessing extends CarDetailsState {}
 
 class CarDetailsDone extends CarDetailsState {
-  final List<Datum> carListByKM;
-  final List<Datum> carListByNearBy;
-  final List<Datum> carListByTopPick;
+  final List<Datum>? carListByKM;
+  final List<Datum>? carListByNearBy;
+  final List<Datum>? carListByTopPick;
   final Position currentPosition;
 
   CarDetailsDone( {
    required this.currentPosition,
-    required this.carListByKM,
-    required this.carListByNearBy,
-    required this.carListByTopPick,
+     this.carListByKM,
+     this.carListByNearBy,
+     this.carListByTopPick,
   });
 }
 

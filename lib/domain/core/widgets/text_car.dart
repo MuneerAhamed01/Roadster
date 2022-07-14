@@ -8,28 +8,26 @@ class TextForCarName extends StatelessWidget {
     required this.carBrand,
     required this.carModel,
     required this.width,
-    required this.fontsize,
+    required this.fontsize, this.textAlign,
   }) : super(key: key);
 
   final String carBrand;
   final String carModel;
   final double width;
   final double fontsize;
+  final TextAlign? textAlign;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: width.w,
-      child: Text(
-        carBrand + carModel,
-        overflow: TextOverflow.ellipsis,
-        style: GoogleFonts.lato(
-          
-          fontSize: fontsize,
-          fontWeight: FontWeight.bold,
-        ),
-        textAlign:TextAlign.center
-      ),
+      child: Text(carBrand + carModel,
+          overflow: TextOverflow.ellipsis,
+          style: GoogleFonts.lato(
+            fontSize: fontsize,
+            fontWeight: FontWeight.bold,
+          ),
+          textAlign:textAlign),
     );
   }
 }

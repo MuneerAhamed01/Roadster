@@ -16,8 +16,8 @@ import 'package:road_ster/presentation/settings/settings_screen.dart';
 import 'package:road_ster/presentation/watchlist/watchlist.dart';
 
 class BottomNavigation extends StatelessWidget {
-   BottomNavigation({Key? key}) : super(key: key);
-  final List<Widget> screen =  [
+  BottomNavigation({Key? key}) : super(key: key);
+  final List<Widget> screen = [
     const HomeScreen(),
     const CarListed(),
     WatchlistCar(),
@@ -40,9 +40,9 @@ class BottomNavigation extends StatelessWidget {
       ],
       child: BlocBuilder<BottomnavigationCubit, BottomnavigationState>(
           builder: (context, stateOne) {
+        context.read<CarDetailsBloc>().add(CarGetDetailsHomePage());
         stateOne as BottomnavigationChanging;
         return Scaffold(
-         
           body: NotificationListener<UserScrollNotification>(
               onNotification: (onNotification) {
                 context.read<ScrollListenerCubit>().onScrolling(onNotification);

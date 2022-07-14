@@ -1,7 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/route_manager.dart';
+import 'package:road_ster/application/date_picking_car/date_picking_cubit.dart';
 import 'package:road_ster/presentation/routes/routes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -12,9 +14,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   preferences = await SharedPreferences.getInstance();
-  // await preferences.remove("userData");
-  
-  
+  await preferences.remove("carByDate");
 
   runApp(MyApp());
 }
@@ -29,21 +29,25 @@ class MyApp extends StatelessWidget {
         minTextAdapt: true,
         splitScreenMode: true,
         builder: (context, child) {
-          return GetMaterialApp(
-            supportedLocales: const [
-              Locale('en', 'US'), // English
-            ],
-            builder: (context, child) => MediaQuery(
-                data: MediaQuery.of(context).copyWith(textScaleFactor: 1),
-                child: child!),
-            debugShowCheckedModeBanner: false,
-            title: 'RoadSter',
-            theme: ThemeData(
-              canvasColor: Colors.transparent,
-              scaffoldBackgroundColor: backgroundColor,
-              primarySwatch: Colors.blue,
+          return BlocProvider(
+            create: (context) => DatePickingCubit
+            (),
+            child: GetMaterialApp(
+              supportedLocales: const [
+                Locale('en', 'US'), // English
+              ],
+              builder: (context, child) => MediaQuery(
+                  data: MediaQuery.of(context).copyWith(textScaleFactor: 1),
+                  child: child!),
+              debugShowCheckedModeBanner: false,
+              title: 'RoadSter',
+              theme: ThemeData(
+                canvasColor: Colors.transparent,
+                scaffoldBackgroundColor: backgroundColor,
+                primarySwatch: Colors.blue,
+              ),
+              onGenerateRoute: _appRoute.onGenerateRoutes,
             ),
-            onGenerateRoute: _appRoute.onGenerateRoutes,
           );
         });
   }
