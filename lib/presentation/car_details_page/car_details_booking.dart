@@ -16,11 +16,13 @@ import '../../domain/core/sizedboxes.dart';
 import '../../domain/core/widgets/location_radius.dart';
 
 class CarDetailsPage extends StatelessWidget {
-  CarDetailsPage({Key? key, required this.carList, required this.position})
+  CarDetailsPage({Key? key, required this.carList, required this.position, required this.isWachList})
       : super(key: key);
   final Datum carList;
   final List heading = [milage, fuelType, seats];
   final Position position;
+    final List<String> isWachList;
+
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +40,7 @@ class CarDetailsPage extends StatelessWidget {
         // iconTheme: icond,
       ),
       body: CarDetailsBody(
+        isWachList: isWachList,
         heading: heading,
         carList: carList,
         position: position,

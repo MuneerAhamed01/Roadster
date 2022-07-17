@@ -14,6 +14,7 @@ import 'package:road_ster/application/password_visible/paswordvisible_cubit.dart
 import 'package:road_ster/application/text_change/text_change_cubit.dart';
 import 'package:road_ster/application/users_details/get_users_details_cubit.dart';
 import 'package:road_ster/domain/core/colors.dart';
+import 'package:road_ster/domain/core/fonts.dart';
 import 'package:road_ster/presentation/Login_singnup/login_form/login_page.dart';
 import 'package:road_ster/presentation/Login_singnup/sign_up_form/pageview_models/pageview_four.dart';
 import 'package:road_ster/presentation/Login_singnup/sign_up_form/pageview_models/pageview_one.dart';
@@ -215,6 +216,7 @@ class _SignUpFormState extends State<SignUpForm> {
                               context
                                   .read<UserRegistrationCubit>()
                                   .registerNewAccount(
+                                    profile: Profile.adding,
                                       fileImage: fileImage,
                                       name: nameController.text,
                                       email: emailController.text,

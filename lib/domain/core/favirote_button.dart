@@ -3,7 +3,9 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:road_ster/application/get_watchlist_data/get_watchlist_data_bloc.dart';
 import 'package:road_ster/domain/core/colors.dart';
+import 'package:road_ster/presentation/watchlist/watchlist.dart';
 
 import '../../application/addwatchlist/watchlistbutton_cubit.dart';
 
@@ -15,7 +17,8 @@ class IconOfDelete extends StatelessWidget {
       required this.imageName,
       required this.align,
       required this.isWatchList,
-      required this.carBrand})
+      required this.carBrand,
+      this.index})
       : super(key: key);
   final String carid;
   final String imageName;
@@ -23,6 +26,7 @@ class IconOfDelete extends StatelessWidget {
   final bool isWatchList;
   final String carBrand;
   final double radius;
+  final int? index;
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +41,13 @@ class IconOfDelete extends StatelessWidget {
             alignment: align,
             child: GestureDetector(
               onTap: () {
+                if (itemListKey.currentState != null) {
+                  itemListKey.currentState!.removeItem(
+                      index!,
+                      (context, animation) =>
+                          SizeTransition(sizeFactor: animation));
+                }
+                // context.read<GetWatchlistDataBloc>().add(GetWatchListData());
                 if (!isWatchList) {
                   if (state is WatchlistbuttonOnProcess) {
                     log("---------------------------------------------------------isGoingtoStatewithtrue---------------------------");

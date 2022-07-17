@@ -10,6 +10,7 @@ import 'package:road_ster/domain/core/shimmer.dart';
 import 'package:road_ster/domain/core/sizedboxes.dart';
 import 'package:road_ster/presentation/watchlist/widgets/watchlist_container.dart';
 import '../car_list/widget/app_bar.dart';
+final itemListKey = GlobalKey<AnimatedListState>();
 
 class WatchlistCar extends StatefulWidget {
   const WatchlistCar({Key? key}) : super(key: key);
@@ -26,7 +27,6 @@ class _WatchlistCarState extends State<WatchlistCar> {
     _bloc.add(GetWatchListData());
     super.initState();
   }
-
   @override
   Widget build(BuildContext context) {
     _bloc.add(GetWatchListData());
@@ -102,20 +102,30 @@ class _WatchlistCarState extends State<WatchlistCar> {
                           if (stateCar is GetWatchlistDataGetDone) {
                             if (stateCar.carList!.isEmpty) {
                               return Padding(
-                                padding:  EdgeInsets.only(top: 300.h),
+                                padding: EdgeInsets.only(top: 300.h),
                                 child: const Center(
                                     child: Text("Add Some Cars To Watchlsit")),
                               );
                             }
-                            return ListView.separated(
+                            return AnimatedList(
+                                    key: itemListKey,
+
                               controller: ScrollController(),
-                              itemBuilder: (context, index) =>
+                              itemBuilder: (context, index, animation) =>
+                                  Column(
+                                children: [
                                   WatchListContainer(
-                                carList: stateCar.carList![index],
+                                    index: index,
+                                    isWachList: stateCar.ids!,
+                                    position: stateCar.position,
+                                    carList: stateCar.carList![index],
+                                  ),
+                                  h10
+                                ],
                               ),
                               shrinkWrap: true,
-                              itemCount: stateCar.carList!.length,
-                              separatorBuilder: (context, index) => h10,
+                              initialItemCount: stateCar.carList!.length,
+                              // separatorBuilder: (context, index) => h10,
                             );
                           } else {
                             return ListView.separated(

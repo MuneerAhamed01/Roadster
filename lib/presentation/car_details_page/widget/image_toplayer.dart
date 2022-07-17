@@ -9,9 +9,11 @@ import '../../../domain/core/widgets/text_car.dart';
 class ImageInCarDetails extends StatelessWidget {
   const ImageInCarDetails({
     Key? key,
-    required this.carList,
+    required this.carList, required this.isWachList,
   }) : super(key: key);
   final Datum carList;
+  final List<String> isWachList;
+
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,7 @@ class ImageInCarDetails extends StatelessWidget {
       height: 360.h,
       decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.vertical(bottom: Radius.circular(55.r)),
+          borderRadius: BorderRadius.vertical(bottom: Radius.circular(55.r),),
           image: DecorationImage(
               image: NetworkImage(carList.imgUrl), fit: BoxFit.contain)),
       child: Padding(
@@ -34,8 +36,8 @@ class ImageInCarDetails extends StatelessWidget {
               child: TextForCarName(
                   carBrand: carList.brand,
                   carModel: " ${carList.model}",
-                  width: 280,
-                  fontsize: 30),
+                  width: 280.w,
+                  fontsize: 30.sp),
             ),
             const Spacer(),
             IconOfDelete(
@@ -43,7 +45,7 @@ class ImageInCarDetails extends StatelessWidget {
                 carid: carList.id,
                 imageName: "imageName",
                 align: Alignment.topLeft.add(const Alignment(0, -0.02)),
-                isWatchList: false,
+                isWatchList: isWachList.contains(carList.id),
                 carBrand: "carBrand")
           ],
         ),

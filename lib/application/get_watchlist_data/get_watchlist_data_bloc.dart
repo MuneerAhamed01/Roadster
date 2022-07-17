@@ -2,6 +2,7 @@
 import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/animation.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:meta/meta.dart';
 import 'package:road_ster/domain/api_values/api.dart';
 import 'package:road_ster/domain/models/get_car_details.dart';
@@ -20,6 +21,8 @@ class GetWatchlistDataBloc
     on<GetWatchListData>((event, emit) async {
      
       emit(GetWatchlistDataOnprocess());
+      final Position position = await Geolocator.getCurrentPosition();
+
       final responseId = preferences.getString("userData");
       final userId = loginDetailsFromJson(responseId!).id;
 
@@ -28,8 +31,10 @@ class GetWatchlistDataBloc
         final response = await RepositoryHandler.getWatchlistData(
             ApiValues.getWatchList, map);
         final watchlistCar = await SortingByOrder.watchList(response.data);
+        final watchlistCarIds = await SortingByOrder.watchListIds(response.data);
+
         log(watchlistCar.length.toString());
-        emit(GetWatchlistDataGetDone(carList: watchlistCar));
+        emit(GetWatchlistDataGetDone(carList: watchlistCar,position: position,ids: watchlistCarIds));
       } catch (e) {
         print(e.toString());
         emit(GetWatchlistDataError());
@@ -37,6 +42,8 @@ class GetWatchlistDataBloc
     });
     on<GetWatchListIstrue>((event, emit) async {
       emit(GetWatchlistDataOnprocess());
+      final Position position = await Geolocator.getCurrentPosition();
+
       final responseId = preferences.getString("userData");
       final userId = loginDetailsFromJson(responseId!).id;
       final map = {"USERID": userId};
@@ -45,7 +52,7 @@ class GetWatchlistDataBloc
             ApiValues.getWatchList, map);
         final watchlistCar = await SortingByOrder.watchListIds(response.data);
         log(watchlistCar.length.toString());
-        emit(GetWatchlistDataGetDone(ids: watchlistCar));
+        emit(GetWatchlistDataGetDone(ids: watchlistCar,position:position ));
       } catch (e) {
         print(e.toString());
         emit(GetWatchlistDataError());

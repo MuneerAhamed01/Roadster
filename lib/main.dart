@@ -44,7 +44,7 @@ class MyApp extends StatelessWidget {
               theme: ThemeData(
                 canvasColor: Colors.transparent,
                 scaffoldBackgroundColor: backgroundColor,
-                primarySwatch: Colors.blue,
+                primarySwatch: Colors.cyan,
               ),
               onGenerateRoute: _appRoute.onGenerateRoutes,
             ),

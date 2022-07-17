@@ -45,10 +45,27 @@ class RepositoryHandler {
   }
 
   static Future<Response<dynamic>> registerUser(
-      Map<String, dynamic> signUp) async {
+      Map<String, dynamic> signUp,String api) async {
     try {
       final response =
-          await _dio.post(ApiValues.signUpUrl, data: jsonEncode(signUp));
+          await _dio.post(api, data: jsonEncode(signUp));
+      return response;
+    } on DioError catch (e) {
+      if (e.type == DioErrorType.response) {
+        throw e.response!.data.toString();
+      } else {
+        throw "Cheak your internet connecion and try again";
+      }
+    } catch (e) {
+      throw "OOPS! Something went wrong";
+    }
+  }
+   static Future<Response<dynamic>> registerUserUpdate(
+      Map<String, dynamic> signUp,String api) async {
+    try {
+      final response =
+          await _dio.patch(api, data: jsonEncode(signUp));
+          
       return response;
     } on DioError catch (e) {
       if (e.type == DioErrorType.response) {
@@ -123,6 +140,21 @@ class RepositoryHandler {
     }
   }
   static Future<Response<dynamic>> getBookingDetais(String value) async {
+    try {
+      final response = await _dio.get(value);
+
+      return response;
+    } on DioError catch (e) {
+      if (e.type == DioErrorType.response) {
+        throw e.response!.data.toString();
+      } else {
+        throw "Cheak your internet connecion and try again";
+      }
+    } catch (e) {
+      throw "OOPS! Something went wrong";
+    }
+  }
+    static Future<Response<dynamic>> getUserProfile(String value) async {
     try {
       final response = await _dio.get(value);
 

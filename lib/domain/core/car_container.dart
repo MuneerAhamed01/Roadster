@@ -29,7 +29,7 @@ class CarContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     // print(isWachList);
     return GestureDetector(
-      onTap: ()=>Get.to(()=>CarDetailsPage(carList: carList!,position: position,)),
+      onTap: ()=>Get.to(()=>CarDetailsPage(carList: carList!,position: position,isWachList: isWachList,)),
       child: Container(
         height: 240.h,
         width: 200.w,

@@ -5,10 +5,11 @@ class ShimmerWidget extends StatelessWidget {
   const ShimmerWidget({
     Key? key,
     required this.width,
-    required this.height,
+    required this.height,  this.shape = BoxShape.rectangle,
   }) : super(key: key);
   final double width;
   final double height;
+  final BoxShape shape;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +20,8 @@ class ShimmerWidget extends StatelessWidget {
         child: Container(
           width: width,
           height: height,
-          color: Colors.white,
+          
+          decoration: BoxDecoration(shape: shape,color: Colors.white,),
         ));
   }
 }

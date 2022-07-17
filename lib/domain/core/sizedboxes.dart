@@ -18,3 +18,4 @@ const space = Spacer();
 //widths
 final w20 = SizedBox(width: 20.w);
 final w10 = SizedBox(width: 10.w);
+final w30 = SizedBox(width: 30.w);

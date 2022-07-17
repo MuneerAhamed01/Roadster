@@ -18,12 +18,14 @@ class CarDetailsBody extends StatelessWidget {
     Key? key,
     required this.heading,
     required this.carList,
-    required this.position,
+    required this.position, required this.isWachList,
   }) : super(key: key);
 
   final List heading;
   final Position position;
   final Datum carList;
+  final List<String> isWachList;
+
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +35,7 @@ class CarDetailsBody extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ImageInCarDetails(carList: carList),
+              ImageInCarDetails(carList: carList,isWachList: isWachList),
               h30,
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20.w),

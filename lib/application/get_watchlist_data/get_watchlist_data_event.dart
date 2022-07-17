@@ -8,3 +8,4 @@ class GetWatchListData extends GetWatchlistDataEvent {
 }
 
 class GetWatchListIstrue extends GetWatchlistDataEvent {}
+
