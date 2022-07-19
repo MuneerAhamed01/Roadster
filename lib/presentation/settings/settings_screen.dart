@@ -10,6 +10,8 @@ import 'package:road_ster/domain/core/colors.dart';
 import 'package:road_ster/domain/core/shimmer.dart';
 import 'package:road_ster/main.dart';
 import 'package:road_ster/presentation/Login_singnup/login_form/login_page.dart';
+import 'package:road_ster/presentation/settings/screens/booking_histroy/booking_history.dart';
+import 'package:road_ster/presentation/settings/screens/reset_password/reset_password.dart';
 import 'package:road_ster/presentation/settings/screens/user_account_details/update_profile.dart';
 
 import '../../domain/core/sizedboxes.dart';
@@ -89,14 +91,18 @@ class SettingsPage extends StatelessWidget {
                         _settingsList(
                             onTap: () => state is GetUserdetailAndImageOnDone
                                 ? Get.to(ProfileUpdate(
-                                  image:state.imageUrl!,
+                                    image: state.imageUrl!,
                                     userData: state.usersDetails,
-                                  ))
+                                  ))!
+                                    .then((value) => context
+                                        .read<GetUserdetailAndImageBloc>()
+                                        .add(GetDetailsSettings()))
                                 : null,
                             icon: FontAwesomeIcons.user,
                             name: "My Account"),
                         h50,
                         _settingsList(
+                            onTap: () => Get.to(BookingHistory()),
                             icon: FontAwesomeIcons.file,
                             name: "Booking History"),
                         h50,
@@ -105,11 +111,17 @@ class SettingsPage extends StatelessWidget {
                             name: "Help and Support"),
                         h50,
                         _settingsList(
-                        onTap:(){
-
-                        },
-                            icon: FontAwesomeIcons.lock,
-                            name: "Reset Password",),
+                          onTap: () {
+                            state is GetUserdetailAndImageOnDone
+                                ? Get.to(ResetPassword())!.then((value) {
+                                    Get.snackbar("Password Reset",
+                                        "Password reset sucessfully");
+                                  })
+                                : null;
+                          },
+                          icon: FontAwesomeIcons.lock,
+                          name: "Reset Password",
+                        ),
                         h50,
                         _settingsList(
                             onTap: () async {

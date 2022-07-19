@@ -18,3 +18,4 @@ class OtpcheakMobError extends OtpcheakingState {
 class OtpcheakingotpCheck extends OtpcheakingState {}
 
 class OtpcheakingotpError extends OtpcheakingState {}
+class OtpcheakingMobileNoError extends OtpcheakingState {}

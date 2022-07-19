@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gender_picker/source/enums.dart';
@@ -216,7 +217,7 @@ class _SignUpFormState extends State<SignUpForm> {
                               context
                                   .read<UserRegistrationCubit>()
                                   .registerNewAccount(
-                                    profile: Profile.adding,
+                                      profile: Profile.adding,
                                       fileImage: fileImage,
                                       name: nameController.text,
                                       email: emailController.text,
@@ -273,21 +274,22 @@ class HeadingTextSignup extends StatelessWidget {
 }
 
 class TextFieldCustomized extends StatelessWidget {
-  const TextFieldCustomized({
-    Key? key,
-    required this.hintText,
-    this.onFieldSubmitted,
-    this.node,
-    this.textInputAction,
-    this.value = false,
-    this.onTap,
-    this.controller,
-    this.maxLine = 1,
-    this.validator,
-    this.textObstact = false,
-    this.keyboardType,
-    this.suffix,
-  }) : super(key: key);
+  const TextFieldCustomized(
+      {Key? key,
+      required this.hintText,
+      this.onFieldSubmitted,
+      this.node,
+      this.textInputAction,
+      this.value = false,
+      this.onTap,
+      this.controller,
+      this.maxLine = 1,
+      this.validator,
+      this.textObstact = false,
+      this.keyboardType,
+      this.suffix,
+      this.bodrerRadius = const BorderRadius.all(Radius.circular(4.0)), this.input})
+      : super(key: key);
   final String hintText;
   final Function(String)? onFieldSubmitted;
   final FocusNode? node;
@@ -300,12 +302,15 @@ class TextFieldCustomized extends StatelessWidget {
   final TextInputType? keyboardType;
   final bool textObstact;
   final Widget? suffix;
+  final BorderRadius bodrerRadius;
+  final List<TextInputFormatter>? input;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: 350,
       child: TextFormField(
+        inputFormatters: input,
         // key: textFormKey,
         obscureText: textObstact,
         keyboardType: keyboardType,
@@ -330,7 +335,9 @@ class TextFieldCustomized extends StatelessWidget {
   }
 
   OutlineInputBorder _bordermethod() {
-    return const OutlineInputBorder(
-        borderSide: BorderSide(color: colorPalette2));
+    // var bodrerRadius;
+    return OutlineInputBorder(
+        borderSide: BorderSide(color: colorPalette2),
+        borderRadius: bodrerRadius);
   }
 }

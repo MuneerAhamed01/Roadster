@@ -74,7 +74,9 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
                   content: Lottie.asset(ImagesStrings.loadingPrimary,
                       width: 100, height: 100));
             } else if (state is UserRegistrationOnsuccess) {
-              Get.off(SettingsPage());
+              print("object");
+              Get.back();
+              Get.back();
             }
           },
           child: SafeArea(
@@ -143,7 +145,8 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
                         h20,
                         _textfieldUpdate(
                             validator: (p0) =>
-                                ValidationTextField.locationValidation(p0,value: 3),
+                                ValidationTextField.locationValidation(p0,
+                                    value: 3),
                             controller: _districtcontroller,
                             label: "District",
                             icon: const Icon(
@@ -151,7 +154,8 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
                         h20,
                         _textfieldUpdate(
                             validator: (p0) =>
-                                ValidationTextField.locationValidation(p0,value: 10),
+                                ValidationTextField.locationValidation(p0,
+                                    value: 10),
                             controller: _addresscontroller,
                             label: "Address",
                             icon: const Icon(FontAwesomeIcons.locationArrow)),

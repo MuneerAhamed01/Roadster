@@ -13,4 +13,5 @@ class ApiValues {
   static const bookingDetails = "/admin/adminbookingdata";
   static const userDetails = "/user/getprofileuserdata/";
   static const updateUser = '/user/userupdate/';
+  static const resetPassword = '/user/passwordreset/';
 }

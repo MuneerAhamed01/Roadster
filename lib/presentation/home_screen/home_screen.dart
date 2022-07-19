@@ -10,7 +10,6 @@ import 'package:road_ster/domain/models/user_login.dart';
 import 'package:road_ster/main.dart';
 import 'package:road_ster/presentation/home_screen/widgets/carosel.dart';
 import 'package:road_ster/presentation/home_screen/widgets/heading_text.dart';
-
 import '../../application/car_details/car_details_bloc.dart';
 import '../../domain/core/available_date.dart';
 import '../../domain/core/car_container.dart';

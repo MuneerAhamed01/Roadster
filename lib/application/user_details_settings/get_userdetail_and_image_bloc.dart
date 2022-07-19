@@ -24,6 +24,7 @@ class GetUserdetailAndImageBloc
       try {
         final response = await RepositoryHandler.getUserProfile(
             ApiValues.userDetails + userId.id);
+       await preferences.setString("userDetailsFull", response.data);
         print(response.data);
         final storage = FirebaseStorage.instance
             .ref()

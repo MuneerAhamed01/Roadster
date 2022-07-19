@@ -169,5 +169,24 @@ class RepositoryHandler {
       throw "OOPS! Something went wrong";
     }
   }
+     static Future<Response<dynamic>> passwordUpdate(
+      Map<String, dynamic> signUp,String api) async {
+    try {
+      final response =
+          await _dio.patch(api, data: jsonEncode(signUp));
+          
+      return response;
+    } on DioError catch (e) {
+      if (e.type == DioErrorType.response) {
+        throw e.response!.data.toString();
+      } else {
+        throw "Cheak your internet connecion and try again";
+      }
+    } catch (e) {
+      throw "OOPS! Something went wrong";
+    }
+  }
+
+
   
 }

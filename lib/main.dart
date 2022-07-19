@@ -15,6 +15,7 @@ void main() async {
   await Firebase.initializeApp();
   preferences = await SharedPreferences.getInstance();
   await preferences.remove("carByDate");
+  await preferences.remove("userDetailsFull");
 
   runApp(MyApp());
 }
