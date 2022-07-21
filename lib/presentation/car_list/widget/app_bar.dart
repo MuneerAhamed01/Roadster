@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../application/car_details/car_details_bloc.dart';
 import '../../../domain/core/colors.dart';
 
 class AppBarCustomized extends StatelessWidget {
-  const AppBarCustomized({Key? key, required this.suffixIcon}) : super(key: key);
+  const AppBarCustomized(
+      {Key? key, required this.suffixIcon, required this.onChanged})
+      : super(key: key);
   final Widget suffixIcon;
+  final void Function(String)? onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -36,9 +33,7 @@ class AppBarCustomized extends StatelessWidget {
               left: 15,
             ),
             hintStyle: GoogleFonts.lato(fontSize: 15)),
-        onChanged: (value) {
-          context.read<CarDetailsBloc>().add(CarGetDetailsBySearch(value));
-        },
+        onChanged: onChanged,
       ),
     );
   }

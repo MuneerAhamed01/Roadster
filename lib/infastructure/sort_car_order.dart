@@ -3,10 +3,14 @@ import 'dart:developer';
 
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
+import 'package:road_ster/application/car_details/car_details_bloc.dart';
 
+import '../domain/api_values/api.dart';
 import '../domain/models/booking_details.dart';
+import '../domain/models/booking_history.dart';
 import '../domain/models/get_car_details.dart';
 import 'cache_data_repo.dart';
+import 'login_and_signup/login_repository.dart';
 
 class SortingByOrder {
   List<Datum> sortByKm(List<Datum> carList, Position position) {
@@ -56,7 +60,8 @@ class SortingByOrder {
     List<Datum> list = [];
     final Map<String, dynamic> fromJson = jsonDecode(response);
 
-    final carDetails = await CacheDataRepository().getCarFromCacheData();
+    final carDetails = await CacheDataRepository()
+        .getCarFromCacheData(cacheDataFromCarDetails);
     final carDetailsList = getCarDetailsFromJson(carDetails);
     for (var ids in fromJson['wishlist']) {
       for (var cars in carDetailsList.data) {
@@ -72,8 +77,20 @@ class SortingByOrder {
   static Future<List<String>> watchListIds(String response) async {
     List<String> list = [];
     final Map<String, dynamic> fromJson = jsonDecode(response);
+    String carDetails = '';
 
-    final carDetails = await CacheDataRepository().getCarFromCacheData();
+    if (await CacheDataRepository().cheackKeyIsThere(cacheDataFromCarDetails)) {
+      log("----------------------------------------------------------------------------------------FromAPI------------------------------------------");
+      carDetails = await CacheDataRepository()
+          .getCarFromCacheData(cacheDataFromCarDetails);
+    } else {
+      final responeAPI =
+          await RepositoryHandler.getCarDetails(ApiValues.getCarDetails);
+      log("----------------------------------------------------------------------------------------FrmCacacacaad------------------------------------------");
+      await CacheDataRepository()
+          .addCarFromCache(responeAPI.data, cacheDataFromCarDetails);
+      carDetails = responeAPI.data;
+    }
     final carDetailsList = getCarDetailsFromJson(carDetails);
     for (var ids in fromJson['wishlist']) {
       for (var cars in carDetailsList.data) {
@@ -82,7 +99,7 @@ class SortingByOrder {
         }
       }
     }
-
+    print(list);
     return list;
   }
 
@@ -109,6 +126,20 @@ class SortingByOrder {
     }
     // print(valuesForAvaliablityCheack);
     return valuesForAvaliablityCheack;
+  }
+
+  List<String> imageLink(
+      List<BookingDatum> listOfData, List<Datum> carDetails) {
+    List<String> images = [];
+
+    for (var e in carDetails) {
+      for (var element in listOfData) {
+        if (e.id == element.carId) {
+          images.add(e.imgUrl);
+        }
+      }
+    }
+    return images;
   }
 }
 

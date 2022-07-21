@@ -102,7 +102,7 @@ class SettingsPage extends StatelessWidget {
                             name: "My Account"),
                         h50,
                         _settingsList(
-                            onTap: () => Get.to(BookingHistory()),
+                            onTap: () => Get.to(const BookingHistory()),
                             icon: FontAwesomeIcons.file,
                             name: "Booking History"),
                         h50,

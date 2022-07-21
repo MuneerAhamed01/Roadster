@@ -35,12 +35,12 @@ class BottomNavigation extends StatelessWidget {
           create: (context) => BottomnavigationCubit(),
         ),
         BlocProvider(
-          create: (context) => CarDetailsBloc(),
+          create: (context) => CarDetailsBloc()..add(CarGetDetailsHomePage()),
         ),
       ],
       child: BlocBuilder<BottomnavigationCubit, BottomnavigationState>(
           builder: (context, stateOne) {
-        context.read<CarDetailsBloc>().add(CarGetDetailsHomePage());
+        // context.read<CarDetailsBloc>().add(CarGetDetailsHomePage());
         stateOne as BottomnavigationChanging;
         return Scaffold(
           body: NotificationListener<UserScrollNotification>(

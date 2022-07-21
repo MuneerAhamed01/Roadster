@@ -48,6 +48,11 @@ class _CarListedState extends State<CarListed> {
               child: Padding(
                 padding: EdgeInsets.only(left: 10.w, right: 10.w, top: 10.h),
                 child: AppBarCustomized(
+                  onChanged: (value) {
+                    context
+                        .read<CarDetailsBloc>()
+                        .add(CarGetDetailsBySearch(value));
+                  },
                   suffixIcon: IconButton(
                     onPressed: () {},
                     icon: const Icon(
@@ -77,7 +82,6 @@ class _CarListedState extends State<CarListed> {
                           : BlocBuilder<GetWatchlistDataBloc,
                               GetWatchlistDataState>(
                               builder: (context, stateWatch) {
-                                
                                 return GridView.builder(
                                   controller: scrollcontroller,
                                   gridDelegate:
@@ -88,17 +92,18 @@ class _CarListedState extends State<CarListed> {
                                     crossAxisSpacing: 9,
                                   ),
                                   itemBuilder: (context, index) {
-                                    if (state is CarDetailsDone && stateWatch is GetWatchlistDataGetDone) {
+                                    if (state is CarDetailsDone &&
+                                        stateWatch is GetWatchlistDataGetDone) {
                                       return CarContainer(
-                                                                                isWachList: stateWatch.ids! ,
-
+                                        isWachList: stateWatch.ids!,
                                         position: state.currentPosition,
                                         carList: state.carListByKM![index],
                                         index: index,
                                       );
-                                    } else if (state is CarDetailsSearch && stateWatch is GetWatchlistDataGetDone) {
+                                    } else if (state is CarDetailsSearch &&
+                                        stateWatch is GetWatchlistDataGetDone) {
                                       return CarContainer(
-                                        isWachList: stateWatch.ids! ,
+                                        isWachList: stateWatch.ids!,
                                         position: state.currentPosition,
                                         carList: state.list[index],
                                         index: index,

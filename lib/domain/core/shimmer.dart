@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ShimmerWidget extends StatelessWidget {
@@ -18,8 +19,8 @@ class ShimmerWidget extends StatelessWidget {
         baseColor: Colors.grey[200]!,
         highlightColor: Colors.grey[350]!,
         child: Container(
-          width: width,
-          height: height,
+          width: width.w,
+          height: height.h,
           
           decoration: BoxDecoration(shape: shape,color: Colors.white,),
         ));

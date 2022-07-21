@@ -1,9 +1,12 @@
+import 'package:api_cache_manager/api_cache_manager.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/route_manager.dart';
+import 'package:road_ster/application/car_details/car_details_bloc.dart';
 import 'package:road_ster/application/date_picking_car/date_picking_cubit.dart';
+import 'package:road_ster/application/get_watchlist_data/get_watchlist_data_bloc.dart';
 import 'package:road_ster/presentation/routes/routes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -16,6 +19,8 @@ void main() async {
   preferences = await SharedPreferences.getInstance();
   await preferences.remove("carByDate");
   await preferences.remove("userDetailsFull");
+  await APICacheManager().deleteCache(cacheDataFromCarDetails);
+  await APICacheManager().deleteCache(cacheWatchList);
 
   runApp(MyApp());
 }
@@ -26,13 +31,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-        designSize: const Size(392.72727272727275, 856.7272727272727),
+        designSize: const Size(392.727, 856.727),
         minTextAdapt: true,
         splitScreenMode: true,
         builder: (context, child) {
           return BlocProvider(
-            create: (context) => DatePickingCubit
-            (),
+            create: (context) => DatePickingCubit(),
             child: GetMaterialApp(
               supportedLocales: const [
                 Locale('en', 'US'), // English

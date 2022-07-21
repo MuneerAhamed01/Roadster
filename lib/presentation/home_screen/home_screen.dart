@@ -23,12 +23,12 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   // final _bloc = CarDetailsBloc();
-  final _getWachBloc = GetWatchlistDataBloc();
+  // final _getWachBloc = GetWatchlistDataBloc();
   final String? response = preferences.getString("userData");
   late LoginDetails userDetals;
   @override
   void initState() {
-    _getWachBloc.add(GetWatchListIstrue());
+    // _getWachBloc.add(GetWatchListIstrue());
     userDetals = loginDetailsFromJson(response!);
     // _bloc.add(CarGetDetailsHomePage());
     super.initState();
@@ -41,10 +41,12 @@ class _HomeScreenState extends State<HomeScreen> {
       body: MultiBlocProvider(
         providers: [
           // BlocProvider(create: (_) => _bloc),
-          BlocProvider(create: (_) => _getWachBloc),
+          BlocProvider(
+              create: (_) => GetWatchlistDataBloc()..add(GetWatchListIstrue())),
         ],
         child: BlocBuilder<CarDetailsBloc, CarDetailsState>(
           builder: (context, state) {
+            print(state);
             return SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -97,6 +99,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: BlocBuilder<GetWatchlistDataBloc,
                         GetWatchlistDataState>(
                       builder: (context, stateWatch) {
+                        print(stateWatch);
                         return ListView.separated(
                           // reverse: true,
                           separatorBuilder: (context, index) => w10,

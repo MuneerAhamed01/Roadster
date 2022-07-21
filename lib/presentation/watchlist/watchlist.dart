@@ -10,6 +10,7 @@ import 'package:road_ster/domain/core/shimmer.dart';
 import 'package:road_ster/domain/core/sizedboxes.dart';
 import 'package:road_ster/presentation/watchlist/widgets/watchlist_container.dart';
 import '../car_list/widget/app_bar.dart';
+
 final itemListKey = GlobalKey<AnimatedListState>();
 
 class WatchlistCar extends StatefulWidget {
@@ -27,6 +28,7 @@ class _WatchlistCarState extends State<WatchlistCar> {
     _bloc.add(GetWatchListData());
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     _bloc.add(GetWatchListData());
@@ -81,6 +83,11 @@ class _WatchlistCarState extends State<WatchlistCar> {
                         child: Padding(
                           padding: EdgeInsets.only(top: 10.h),
                           child: AppBarCustomized(
+                            onChanged: (value) {
+                              context
+                                  .read<GetWatchlistDataBloc>()
+                                  .add(GetWatchListBySearch(value));
+                            },
                             suffixIcon: IconButton(
                               onPressed: () {
                                 context
@@ -104,11 +111,12 @@ class _WatchlistCarState extends State<WatchlistCar> {
                               return Padding(
                                 padding: EdgeInsets.only(top: 300.h),
                                 child: const Center(
-                                    child: Text("Add Some Cars To Watchlsit")),
+                                  child: Text("No Data available"),
+                                ),
                               );
                             }
                             return AnimatedList(
-                                    key: itemListKey,
+                              key: itemListKey,
 
                               controller: ScrollController(),
                               itemBuilder: (context, index, animation) =>

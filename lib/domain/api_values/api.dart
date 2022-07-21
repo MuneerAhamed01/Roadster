@@ -1,7 +1,7 @@
 class ApiValues {
   static const baseUrl = "https://roadsterrental.online/api";
   static const loginUrl = "/user/login";
-  static const getUsers = "/admin/usermanagement";
+  static const getUsers = " ";
   static const signUpUrl = "/user/signup";
   static const otpurl = "/user/otpnumber";
   static const otpgetUrl = "/user/otpvalidate";
@@ -14,4 +14,10 @@ class ApiValues {
   static const userDetails = "/user/getprofileuserdata/";
   static const updateUser = '/user/userupdate/';
   static const resetPassword = '/user/passwordreset/';
+  static const postingComment = "/user/postingcomment";
+  static const gettingReviews = '/user/gettingreviews';
+  static const getPendingCarDetails = '/user/bookingdata';
+  static const getCompletedCarDetails = '/user/completedtrips';
+  static const getCancelledCarDetails = '/user/cancelledtrips';
+  static const getSingleCarById = "/user/getsinglecar/";
 }
